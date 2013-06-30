@@ -1,0 +1,1 @@
+coffee -c client/script.coffee
