@@ -22,7 +22,7 @@
 
   connect_redis = require('connect-redis');
 
-  protocol = require('protocol');
+  protocol = require('./protocol');
 
   app = express();
 

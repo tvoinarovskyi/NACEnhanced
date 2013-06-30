@@ -6,7 +6,7 @@
 (function() {
   var Protocol, game;
 
-  game = require('game');
+  game = require('./game');
 
   Protocol = (function() {
     function Protocol(conn, app) {

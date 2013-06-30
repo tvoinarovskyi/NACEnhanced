@@ -2,7 +2,7 @@
     Encapsulate protocol of socket data transmission
 ###
 
-game = require('game')
+game = require('./game')
 
 class Protocol
     constructor: (@conn, @app) ->
