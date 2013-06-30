@@ -75,7 +75,7 @@ class Protocol
         )
 
     boardChanged: () ->
-        
+        null
 
     sendOk: (id) ->
         @send(

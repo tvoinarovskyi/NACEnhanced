@@ -93,7 +93,9 @@
       });
     };
 
-    Protocol.prototype.boardChanged = function() {};
+    Protocol.prototype.boardChanged = function() {
+      return null;
+    };
 
     Protocol.prototype.sendOk = function(id) {
       return this.send({
