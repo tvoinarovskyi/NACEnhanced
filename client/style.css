@@ -4,7 +4,6 @@
 }
 
 .game_board td {
-	background: red;
 	width: 200px;
 	height: 200px;
 	border-left: solid black;
@@ -30,7 +29,6 @@
 }
 
 .game_board tr:last-child {
-	background: green;
     border-bottom: 0;
 }
 
@@ -41,7 +39,6 @@
 }
 
 .inner_board td {
-	background: blue;
 	height: 40px;
 	padding: 0;
 }
