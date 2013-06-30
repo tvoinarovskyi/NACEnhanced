@@ -24,6 +24,7 @@ app.use(express.cookieParser('njkdasd1l;2k3joidua093j2kl1'))
 app.use(express.session())
 app.use(app.router)
 app.use(express.static(path.join(__dirname, '../public')))
+app.use('/client', express.static(path.join(__dirname, '../../client')))
 
 # development only
 if 'development' == app.get('env')
@@ -36,7 +37,8 @@ socks_server = sockjs.createServer()
 
 socks_server.on('connection', (conn) -> 
     conn.on( 'data', (message) ->
-        conn.write(message+''+message)
+        message = JSON.parse(message)
+        conn.write(message['title'])
         return
     )
     conn.on('close', () ->

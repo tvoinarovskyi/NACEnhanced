@@ -42,6 +42,8 @@
 
   app.use(express["static"](path.join(__dirname, '../public')));
 
+  app.use('/client', express["static"](path.join(__dirname, '../../client')));
+
   if ('development' === app.get('env')) {
     app.use(express.errorHandler());
   }
@@ -54,7 +56,8 @@
 
   socks_server.on('connection', function(conn) {
     conn.on('data', function(message) {
-      conn.write(message + '' + message);
+      message = JSON.parse(message);
+      conn.write(message['title']);
     });
     return conn.on('close', function() {});
   });
