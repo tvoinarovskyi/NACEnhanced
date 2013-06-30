@@ -41,7 +41,8 @@
 
 .inner_board td {
 	background: blue;
-	height: 0;
+	height: 40px;
+	padding: 0;
 }
 
 .inner_board td:hover {
