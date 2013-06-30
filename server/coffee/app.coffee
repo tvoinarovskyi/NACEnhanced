@@ -11,6 +11,7 @@ path = require('path')
 sockjs = require('sockjs')
 redis = require('redis')
 connect_redis = require('connect-redis')
+protocol = require('protocol')
 
 app = express();
 
@@ -42,17 +43,16 @@ if 'development' == app.get('env')
 app.get('/', routes.index)
 app.get('/test_socks.html', user.list)
 
+# Define 'slots' for global state storage
+
+# Connections, that await by the connect method.
+app.pendingConnections = []; 
+app.activeGames = [];
+
 socks_server = sockjs.createServer()
 
 socks_server.on('connection', (conn) -> 
-    conn.on( 'data', (message) ->
-        message = JSON.parse(message)
-        conn.write(message['title'])
-        return
-    )
-    conn.on('close', () ->
-        return
-    );
+    p = new protocol.Protocol(conn, app);
 )
 
 http_server = http.createServer(app)

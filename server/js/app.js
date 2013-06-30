@@ -4,7 +4,7 @@
 
 
 (function() {
-  var RedisStore, app, connect_redis, express, http, http_server, path, redis, redis_cli, routes, sockjs, socks_server, user;
+  var RedisStore, app, connect_redis, express, http, http_server, path, protocol, redis, redis_cli, routes, sockjs, socks_server, user;
 
   express = require('express');
 
@@ -21,6 +21,8 @@
   redis = require('redis');
 
   connect_redis = require('connect-redis');
+
+  protocol = require('protocol');
 
   app = express();
 
@@ -67,14 +69,15 @@
 
   app.get('/test_socks.html', user.list);
 
+  app.pendingConnections = [];
+
+  app.activeGames = [];
+
   socks_server = sockjs.createServer();
 
   socks_server.on('connection', function(conn) {
-    conn.on('data', function(message) {
-      message = JSON.parse(message);
-      conn.write(message['title']);
-    });
-    return conn.on('close', function() {});
+    var p;
+    return p = new protocol.Protocol(conn, app);
   });
 
   http_server = http.createServer(app);
