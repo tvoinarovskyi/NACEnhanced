@@ -4,7 +4,7 @@
 
 
 (function() {
-  var app, express, http, http_server, path, routes, sockjs, socks_server, user;
+  var RedisStore, app, connect_redis, express, http, http_server, path, redis, redis_cli, routes, sockjs, socks_server, user;
 
   express = require('express');
 
@@ -18,7 +18,15 @@
 
   sockjs = require('sockjs');
 
+  redis = require('redis');
+
+  connect_redis = require('connect-redis');
+
   app = express();
+
+  redis_cli = redis.createClient();
+
+  RedisStore = connect_redis(express);
 
   app.set('port', process.env.PORT || 3000);
 
@@ -36,7 +44,14 @@
 
   app.use(express.cookieParser('njkdasd1l;2k3joidua093j2kl1'));
 
-  app.use(express.session());
+  app.use(express.session({
+    secret: "ajkdljdopqclkxzmcklnmzxklc;kjasopdiq]powdkmakl;jxlka;sjd;lka",
+    store: new RedisStore({
+      host: 'localhost',
+      port: 6379,
+      client: redis_cli
+    })
+  }));
 
   app.use(app.router);
 

@@ -9,8 +9,14 @@ user = require('./routes/test_socks')
 http = require('http')
 path = require('path')
 sockjs = require('sockjs')
+redis = require('redis')
+connect_redis = require('connect-redis')
 
 app = express();
+
+redis_cli = redis.createClient();
+
+RedisStore = connect_redis(express);
 
 # all environments
 app.set('port', process.env.PORT || 3000)
@@ -21,7 +27,10 @@ app.use(express.logger('dev'))
 app.use(express.bodyParser())
 app.use(express.methodOverride())
 app.use(express.cookieParser('njkdasd1l;2k3joidua093j2kl1'))
-app.use(express.session())
+app.use(express.session({
+  secret: "ajkdljdopqclkxzmcklnmzxklc;kjasopdiq]powdkmakl;jxlka;sjd;lka",
+  store: new RedisStore({ host: 'localhost', port: 6379, client: redis_cli })
+}));
 app.use(app.router)
 app.use(express.static(path.join(__dirname, '../public')))
 app.use('/client', express.static(path.join(__dirname, '../../client')))
