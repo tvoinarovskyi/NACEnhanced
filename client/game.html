@@ -5,8 +5,8 @@
 <title>Tic-tac-toe</title>
 <meta name="description" content="Enhanced version of tic-tac-toe game">
 <meta name="author" content="tvoynarovsky, yshylov">
-<link rel="stylesheet"
-	href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
+<link rel="stylesheet" href="lib/messi/messi.min.css">
 <link rel="stylesheet" href="style.css">
 <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -15,10 +15,15 @@
 <body>
 	<div id="game"></div>
 	<button onclick="initGame('game')">Start game</button>
+	<input id="newName" type="text"></input>
+	<button onclick="changeName()">Change name</button>
+	<button onclick="showRules()">Show rules</button>
 	<script
 		src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 	<script
 		src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="http://cdn.sockjs.org/sockjs-0.3.4.min.js"></script>
+    <script src="lib/messi/messi.min.js"></script>
 	<script src="js/script.js"></script>
 </body>
 </html>

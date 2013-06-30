@@ -2,8 +2,8 @@ Game =
   id: 1
   divId: 'game'
   url: 'http://176.37.65.38/'
-  websocketPort: 1337
   subfield: 0
+  socket: null
   create: () ->
     boardHtml = '<table class="game_board" cellspacing="0" cellpadding="0">'
     boardHtml += '<tbody>';
@@ -21,13 +21,20 @@ Game =
         rowHtml += '</tbody>'
         rowHtml += '</table>'
         rowHtml += '</td>'
-      rowHtml += '<tr>'
+      rowHtml += '</tr>'
       boardHtml += rowHtml
     boardHtml += '</tbody>';
     boardHtml += '</table>';
     $('#' + this.divId).html(boardHtml)
-  connect: (url, port) ->
-    alert "not implemented yet"
+  connect: (url) ->
+    this.url = url
+    this.socket = new SockJS(this.url)
+    this.socket.onopen = () ->
+      console.log "socket opened"
+    this.socket.onclose = () ->
+      console.log "socket closed"
+    this.socket.onmessage = (message) ->
+      handleMessage message
   start: () ->
     alert "not implemented yet"
   connectionDropped: () ->
@@ -37,8 +44,18 @@ Game =
   move: () ->
     alert "not implemented yet"
 
+handleMessage = (message) ->
+  console.log "message"
+
 window.initGame = (divId) ->
-  game = $.extend(true, {}, Game)
-  game.divId = divId
-  game.create()
+  this.game = $.extend(true, {}, Game)
+  this.game.divId = divId
+  this.game.create()
+  this.game.connect("http://localhost:3000/socks_api")
+  
+window.changeName = () ->
+  alert "not implemented yet"
+  
+window.showRules = () ->
+  new Messi 'testtesttest', {title: 'Rules', modal: true}
   
