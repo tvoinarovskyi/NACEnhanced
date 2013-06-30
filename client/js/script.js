@@ -85,4 +85,11 @@
     });
   };
 
+  window.notificate = function(text) {
+    return new Notification("Tic-Tac-Toe", {
+      body: text,
+      icon: "http://memoriesofchocolate.files.wordpress.com/2010/09/knots-and-crosses-kavade.jpg"
+    });
+  };
+
 }).call(this);

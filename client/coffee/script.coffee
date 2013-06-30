@@ -59,3 +59,6 @@ window.changeName = () ->
 window.showRules = () ->
   new Messi 'testtesttest', {title: 'Rules', modal: true}
   
+window.notificate = (text) ->
+  new Notification "Tic-Tac-Toe", {body : text, icon : "http://memoriesofchocolate.files.wordpress.com/2010/09/knots-and-crosses-kavade.jpg"}
+  
