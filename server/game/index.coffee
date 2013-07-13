@@ -2,13 +2,15 @@
     Game logic. Mainly defines the board in which players will play
 ###
 
-WIN = exports.WIN = "WIN"
+WIN = "WIN"
 
 class GameBoard
-    constructor: (@players, @current_player) ->
+    constructor: (@players, current_player) ->
         @board = (0 for j in [0..8] for i in [0..8])
         @main_board = (0 for i in [0..8])
         @current_board = 0
+        @current_player = current_player
+        @first_turn = current_player
 
     dumpBoard: () ->
         res = ("=" for m in [0...25]).join('')+'\n'
@@ -36,7 +38,7 @@ class GameBoard
         console.log(res)
 
     allowed_turn: () ->
-        # Returns player and board allowed to play in
+        # Returns player and board allowed to play in this turn
         return [@current_player, @current_board]
 
     board_playable: (board) -> 
@@ -70,7 +72,7 @@ class GameBoard
                    board[test[0]] == board[test[1]] && 
                    board[test[0]] == board[test[2]])
             if all
-                return true
+                return board[test[0]] # Return any of tests
         return false
 
 
@@ -79,8 +81,11 @@ class GameBoard
 
         if (@players[0] == player)
             player_index = 1
-        else
+        else if (@players[1] == player)
             player_index = 2
+        else 
+            throw new MoveNotAllowed(
+                "Player undefined")
 
         if (player != @current_player)
             throw new MoveNotAllowed(
@@ -110,57 +115,22 @@ class GameBoard
         # Set next board to play
         if @board_playable(board)
             @current_board = field+1
+        else
+            @current_board = 0
 
-        @dumpBoard()
+        # @dumpBoard()
 
         if @board_finished(@main_board)
-            console.log("-----------------WIN------------------")
+            # console.log("-----------------WIN------------------")
             return WIN
 
         return 
 
-class MoveNotAllowed
-    constructor: (@message) ->
-
+class MoveNotAllowed extends Error
     toString: () ->
         return @message
 
-test = () ->
-    # Create board
-    gameBoard = new GameBoard(['user1', 'user2'], 'user1')
-    # Make allowed move
-    gameBoard.move('user1', 1, 8)
-    gameBoard.move('user2', 8, 3)
-    gameBoard.move('user1', 3, 3)
-    gameBoard.move('user2', 3, 1)
-    gameBoard.move('user1', 1, 7)
-    gameBoard.move('user2', 7, 1)
-    gameBoard.move('user1', 1, 9)
 
-    gameBoard.move('user2', 9, 5)
-    gameBoard.move('user1', 5, 4)
-    gameBoard.move('user2', 4, 5)
-    gameBoard.move('user1', 5, 6)
-    gameBoard.move('user2', 6, 5)
-    gameBoard.move('user1', 5, 5)
-
-
-    gameBoard.move('user2', 5, 9)
-    gameBoard.move('user1', 9, 3)
-    gameBoard.move('user2', 3, 9)
-    gameBoard.move('user1', 9, 6)
-    gameBoard.move('user2', 6, 9)
-    gameBoard.move('user1', 9, 9)
-
-    # Other board is not allowed 
-    # gameBoard.move('user1', 5, 5)
-    # gameBoard.move('user2', 9, 9)
-
-    # User 2 turns are not allowed
-    # gameBoard.move('user1', 5, 5)
-    # gameBoard.move('user1', 5, 3)
-
-    # Make not allowed move
-    # gameBoard.move('user1', 1, 2)
-
-test()
+exports.MoveNotAllowed = MoveNotAllowed
+exports.GameBoard = GameBoard
+exports.WIN = WIN
